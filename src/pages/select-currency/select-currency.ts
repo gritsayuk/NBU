@@ -106,12 +106,7 @@ export class SelectCurrencyPage {
     });
   }*/
   getListCurs() {
-    let ysterday: string = "";
-    let dt:Date = new Date();
-    dt.setDate(dt.getDate()-1);
-    ysterday = dt.getFullYear().toString()
-    ysterday += dt.getMonth()>9?(dt.getMonth()+1).toString():"0"+(dt.getMonth()+1).toString();
-    ysterday += dt.getDay()>9?dt.getDate().toString():0+dt.getDate().toString();
+    let ysterday: string = this.apinbuProvider.dateToString(-1);
 
     this.apinbuProvider.runRequestGet({method: 'exchange',
       request: '?date='+ysterday+'&json',

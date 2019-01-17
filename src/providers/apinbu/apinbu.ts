@@ -87,4 +87,14 @@ export class ApinbuProvider {
 
     }
   }
+
+  dateToString (num: number) {
+    let ysterday: string = "";
+    let dt:Date = new Date();
+    dt.setDate(dt.getDate()+num);
+    ysterday = dt.getFullYear().toString()
+    ysterday += dt.getMonth()>8?(dt.getMonth()+1).toString():"0"+(dt.getMonth()+1).toString();
+    ysterday += dt.getDate()>9?dt.getDate().toString():0+dt.getDate().toString();
+    return ysterday;
+  }
 }

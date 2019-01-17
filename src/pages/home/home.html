@@ -14,10 +14,11 @@
     <ion-card *ngFor="let cur of cursList">
         <ion-row>
           <ion-col><h1>{{ cur.cc }}</h1></ion-col>
-          <ion-col><h1>{{ cur.rate }}</h1></ion-col>
+          <ion-col><h1>{{ cur.rate | number: '.1-4' }}</h1></ion-col>
         </ion-row>
         <ion-row>
           <ion-col>{{ cur.exchangedate }}</ion-col>
+          <ion-col>{{ cur.trend  | number: '.1-4' }}</ion-col>
         </ion-row>
       </ion-card>
 <!--    </ion-item>-->
