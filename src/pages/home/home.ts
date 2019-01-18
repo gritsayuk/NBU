@@ -23,7 +23,12 @@ export class HomePage {
               private storage: Storage) {
 
   }
-  ionViewWillEnter() {
+  refresher:any;
+  doRefresh($event) {
+    this.refresher = $event;
+    this.getData();
+  }
+  getData() {
     this.storage.get('DISPLAY_CURRENCY').then((val) => {
       console.log('>>>DISPLAY_CURRENCY', val);
       if (!!val) {
@@ -33,14 +38,18 @@ export class HomePage {
         this.displayCur = this.apinbuProvider.displayCur;
         this.storage.set("DISPLAY_CURRENCY", this.apinbuProvider.displayCur);
       }
-      let ysterday: string = this.apinbuProvider.dateToString(-1);
-      let beaforYsterday: string = this.apinbuProvider.dateToString(-2);
+      let today: string = this.apinbuProvider.dateToString(1);
+      let ysterday: string = this.apinbuProvider.dateToString(0);
+      let beaforYsterday: string = this.apinbuProvider.dateToString(-1);
 
       this.requestCount = 3;
-      this.getListCurs("", 1);
+      this.getListCurs("date="+today+"&", 1);
       this.getListCurs("date="+ysterday+"&", 2);
       this.getListCurs("date="+beaforYsterday+"&", 3);
     });
+  }
+  ionViewWillEnter() {
+    this.getData();
   }
 
   getListCurs(param:string, result:number) {
@@ -75,23 +84,33 @@ export class HomePage {
   parseData() {
     console.log("this.displayCur",this.displayCur.split(";").length);
     this.cursList = [];
+    console.log(">>>this.cursListAll>>>",this.cursListAll);
+    console.log(">>>this.preCursListAll>>>",this.preCursListAll);
+    console.log(">>>this.prePreCursListAll>>>",this.prePreCursListAll);
 
     let displayCurArr = this.displayCur.split(";");
     for (let i = 1; i < displayCurArr.length; i++) {
       if (this.parseDataFor(displayCurArr[i], this.cursListAll, this.preCursListAll)) {
         this.parseDataFor(displayCurArr[i], this.preCursListAll, this.prePreCursListAll);
       }
-
+    }
+    if(!!this.refresher){
+      this.refresher.complete();
     }
   }
 
   parseDataFor(currency, cursListAll, preCursListAll) {
+
     for(let cu in cursListAll) {
       if (currency === cursListAll[cu].cc) {
-        cursListAll[cu].trend = Number(cursListAll[cu].rate) - preCursListAll[cu].rate
+        for (let i in preCursListAll) {
+          if (currency === preCursListAll[i].cc) {
+            cursListAll[cu].trend = Number(cursListAll[cu].rate) - preCursListAll[i].rate;
+            break;
+          }
+        }
         this.cursList.push(cursListAll[cu]);
         return false;
-        console.log(">>>this.cursList",this.cursList);
       }
     }
     return true

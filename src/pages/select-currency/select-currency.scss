@@ -1,3 +1,24 @@
 page-select-currency {
 
+  .col-desc {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .card-md {
+    font-size: 1.8rem;
+    margin-top: 0px;
+    margin-bottom: 5px;
+  }
+  .row {
+    margin-bottom: 8px;
+    margin-top: 8px;
+  }
+  .text-green {
+    color: green;
+  }
+  .searchbar-md {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
 }

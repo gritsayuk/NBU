@@ -156,7 +156,8 @@ export class SelectCurrencyPage {
 
     for (let i in this.allCurryncyDef){
       //tmp1 = this.allCurryncyDef[i].cc.toUpperCase();
-      if(!!this.allCurryncyDef[i].cc && this.allCurryncyDef[i].cc.toUpperCase().indexOf(tmp2) > -1) {
+      if(!!this.allCurryncyDef[i].cc && this.allCurryncyDef[i].cc.toUpperCase().indexOf(tmp2) > -1 ||
+        !!this.allCurryncyDef[i].txt && this.allCurryncyDef[i].txt.toUpperCase().indexOf(tmp2) > -1) {
         CurryncyList.push(this.allCurryncyDef[i]);
       }
     }

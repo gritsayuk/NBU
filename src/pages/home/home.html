@@ -1,24 +1,30 @@
-<ion-header>
+<ion-header class="headCurrencyYY">
   <ion-navbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title></ion-title>
+    <ion-title>Курс НБУ</ion-title>
     <ion-buttons end><button ion-fab mini end (click)="addCurrency()"><ion-icon name="add"></ion-icon></button></ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding class="contentCurrancy">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <!--<ion-list reorder="true" (ionItemReorder)="reorderItems($event)" side="start">-->
     <!--<ion-item *ngFor="let cur of cursList">-->
-    <ion-card *ngFor="let cur of cursList">
-        <ion-row>
-          <ion-col><h1>{{ cur.cc }}</h1></ion-col>
-          <ion-col><h1>{{ cur.rate | number: '.1-4' }}</h1></ion-col>
+    <ion-card *ngFor="let cur of cursList" class="cardCurrency">
+        <ion-row class="item-padding-bottom">
+          <ion-col class="item-padding-bottom"><h1>{{ cur.cc }}</h1></ion-col>
+          <ion-col class="item-padding-bottom"><h1>{{ cur.rate | number: '.1-4' }}</h1></ion-col>
+        </ion-row>
+        <ion-row class="item-padding-top">
+          <ion-col class="item-padding-top">{{cur.txt}}</ion-col>
         </ion-row>
         <ion-row>
           <ion-col>{{ cur.exchangedate }}</ion-col>
-          <ion-col>{{ cur.trend  | number: '.1-4' }}</ion-col>
+          <ion-col [ngClass]="{'text-red': cur.trend > 0, 'text-green': cur.trend <= 0}">{{cur.trend > 0 ? "+" : ""}}{{ cur.trend  | number: '.1-4' }}</ion-col>
         </ion-row>
       </ion-card>
 <!--    </ion-item>-->

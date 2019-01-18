@@ -14,3 +14,24 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+.toolbar-background-md {
+  background: #d1e65c;
+}
+.content-md {
+  background: #b9d7ec;
+}
+.card-md {
+  background: #d1e65c;
+  border-radius: 10px;
+  margin-left: 0px;
+  width: 100%;
+}
+.item-md {
+  background-color: #d1e65c;
+}
+
+.item.item-block.item-md{
+  border-radius: 10px;
+  margin: 8px;
+  width: calc(100% - 5%);
+}
