@@ -18,10 +18,15 @@ export class HomePage {
   cursList:any = [];
   displayCur:string = "";
   requestCount:number = 0;
+  todayStr:string = "";
   constructor(private apinbuProvider: ApinbuProvider,
               public navCtrl: NavController,
               private storage: Storage) {
-
+    let dt = new Date();
+    this.todayStr = dt.getDate() < 10 ? "0" + dt.getDate().toString() : dt.getDate().toString();
+    this.todayStr = this.todayStr + "." + (dt.getMonth() < 9 ? "0" + (dt.getMonth()+1).toString() : (dt.getMonth()+1).toString());
+    this.todayStr = this.todayStr + "." + dt.getFullYear().toString();
+    console.log(">>>>this.todayStr", this.todayStr);
   }
   refresher:any;
   doRefresh($event) {
@@ -38,47 +43,61 @@ export class HomePage {
         this.displayCur = this.apinbuProvider.displayCur;
         this.storage.set("DISPLAY_CURRENCY", this.apinbuProvider.displayCur);
       }
-      let today: string = this.apinbuProvider.dateToString(1);
-      let ysterday: string = this.apinbuProvider.dateToString(0);
-      let beaforYsterday: string = this.apinbuProvider.dateToString(-1);
 
       this.requestCount = 3;
-      this.getListCurs("date="+today+"&", 1);
-      this.getListCurs("date="+ysterday+"&", 2);
-      this.getListCurs("date="+beaforYsterday+"&", 3);
+      this.getListCurs(1);
+      this.getListCurs(2);
+      this.getListCurs(3);
     });
   }
   ionViewWillEnter() {
     this.getData();
   }
 
-  getListCurs(param:string, result:number) {
-    this.apinbuProvider.runRequestGet({method: 'exchange',
-                                       request: '?'+param+'json',
-                                       spinner: true})
-      .subscribe(res => {
-        if (!!res) {
-          if (result === 1) this.cursListAll = res;
-            else if (result === 2) this.preCursListAll = res;
-              else this.prePreCursListAll = res;
-
-          --this.requestCount;
-          //console.log("this.requestCount", this.requestCount);
-          /*if(result === 1) {
-            for (let ii in this.cursListAll) {
-              if (this.cursListAll[ii].cc === "USD") {
-                this.cursListAll.splice(ii, 1);
-                break;
+  getListCurs(result:number, iter: number = 0) {
+    let param: string = "";
+    if (result === 1) {
+      param = "date="+this.apinbuProvider.dateToString(1+iter)+"&";
+    }
+    if (result === 2) {
+      param = "date="+this.apinbuProvider.dateToString(0)+"&";
+    }
+    if (result === 3) {
+      param = "date="+this.apinbuProvider.dateToString(-1)+"&";
+    }
+    if (iter < 5) {
+      this.apinbuProvider.runRequestGet({
+        method: 'exchange',
+        request: '?' + param + 'json',
+        spinner: true
+      })
+        .subscribe(res => {
+          if (!!res) {
+            if (result === 1) {
+              if (res.length > 0) {
+                this.cursListAll = res;
+                this.getListCurs(1, iter+1);
+              } else {
+                --this.requestCount;
+              }
+            } else {
+              if (result === 2) {
+                this.preCursListAll = res;
+                --this.requestCount;
+              } else {
+                this.prePreCursListAll = res;
+                --this.requestCount;
               }
             }
-          }*/
-          if (this.requestCount === 0) {
-            this.parseData();
+
+            if (this.requestCount === 0) {
+              this.parseData();
+            }
           }
-        }
-      }, error => {
-        console.log(">>>BEDA!!!",error);
-      });
+        }, error => {
+          console.log(">>>BEDA!!!", error);
+        });
+    }
   }
 
   parseData() {
@@ -106,6 +125,8 @@ export class HomePage {
         for (let i in preCursListAll) {
           if (currency === preCursListAll[i].cc) {
             cursListAll[cu].trend = Number(cursListAll[cu].rate) - preCursListAll[i].rate;
+            cursListAll[cu].prerate = preCursListAll[i].rate;
+            cursListAll[cu].predt = preCursListAll[i].exchangedate;
             break;
           }
         }
@@ -115,6 +136,7 @@ export class HomePage {
     }
     return true
   }
+
   addCurrency(){
     this.navCtrl.push(SelectCurrencyPage);
   }

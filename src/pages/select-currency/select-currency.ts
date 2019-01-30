@@ -132,6 +132,13 @@ export class SelectCurrencyPage {
     this.allCurryncy = this.allCurryncyDef;
   }
   clickItem(indx) {
+    //this.allCurryncy[indx].check = !this.allCurryncy[indx].check;
+    for (let j in this.allCurryncyDef) {
+      if (this.allCurryncy[indx].cc === this.allCurryncyDef[j].cc) {
+        indx = j;
+        break;
+      }
+    }
     if (!!this.allCurryncyDef[indx].check){
       if(this.allCurryncyDef[indx].check){
         this.displayCur = this.displayCur.substr(0,this.displayCur.indexOf(this.allCurryncyDef[indx].cc))+this.displayCur.substr(this.displayCur.indexOf(this.allCurryncyDef[indx].cc)+this.allCurryncyDef[indx].cc.length+1,1000000);
