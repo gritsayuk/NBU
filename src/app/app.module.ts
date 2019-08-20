@@ -13,6 +13,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ApinbuProvider } from '../providers/apinbu/apinbu';
 
+import { Firebase } from '@ionic-native/firebase';
+import { AdMobFree } from '@ionic-native/admob-free';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -34,6 +37,8 @@ import { ApinbuProvider } from '../providers/apinbu/apinbu';
     SelectCurrencyPage
   ],
   providers: [
+    AdMobFree,
+    Firebase,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},

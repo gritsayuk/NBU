@@ -1,0 +1,95 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!--meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta http-equiv="Access-Control-Allow-Credentials" value="false">
+    <meta name="Access-Control-Allow-Origin: *">
+	<header name = "Access-Control-Allow-Origin: *" /-->
+	<script>
+	var cur = "USD";
+	var resul;
+	var history = [];
+	var Y = 2018;
+	var M = 9;
+	var D = 1;
+	var C_DT
+	
+	function getPreDT () {
+		let today = new Date();
+		today.setYear(Y);
+		today.setMonth(M);
+		today.setDate(D);
+		let y = today.getFullYear();
+		let m = today.getMonth()+1;
+		m = m < 10 ? "0"+m : m;
+		let d = today.getDate();
+		d = d < 10 ? "0"+d : d;
+		D++;
+		C_DT = today;
+		C_DT.setDate(D);
+		return y+""+m+""+d;
+	}
+
+	function send(history) {
+		var curTmp = "";
+		var dataStr = getPreDT();
+		console.log(dataStr);
+		var http = new 	XMLHttpRequest();
+		//https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20190127&json
+		var url = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date="+dataStr+"&json";
+		var respObj;
+		http.open('GET', url , true);
+		http.setRequestHeader('Content-type', 'application/json');
+		http.onreadystatechange = function() {//Call a function when the state changes.
+			if (http.readyState === 4) {
+				if (http.status === 200) {  
+					if (!!http.response){
+					respObj = JSON.parse(http.response);
+					for (let i in respObj) {
+						if(respObj[i].cc === cur) {
+							if (!resul) {
+								resul = {};
+								resul.cc = respObj[i].cc;
+								resul.r030 = respObj[i].r030;
+								resul.txt = respObj[i].txt;
+							}
+							curTmp = {};
+							curTmp.dt = respObj[i].exchangedate;
+							curTmp.rate = respObj[i].rate;
+							if (Array.isArray(history)) {
+								history.push(curTmp);
+							} else {
+								history = new Array(curTmp);
+							}
+							
+						}
+					}
+					}
+				if (C_DT.getMonth() === M) {
+					setTimeout(() => {
+						send(history);
+					},500);
+					}
+					else {
+						if (!resul){
+							resul = {}
+						}
+						resul.history = history;
+						console.log(JSON.stringify(resul));
+					}
+				} else console.log("Error", http);  
+			}	
+		}
+		http.send();
+	}
+	//send(history);
+	function sendTest() {
+		 alert( true+5 ) ; // false
+	}
+	</script>
+</head>
+<body>
+Hello!
+<button onclick="sendTest()">Get</button>
+</body>
+</html>

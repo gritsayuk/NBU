@@ -1,0 +1,23 @@
+{
+    "android": {
+      "release": {
+        "keystore": "./certificates/nbu-release-key.jks",
+        "storePassword": "nbuchipman",
+        "alias": "nbu",
+        "password" : "nbuchipman",
+        "keystoreType": ""
+      }
+    },
+    "ios": {
+      "debug": {
+        "buildFlag": [
+          "-UseModernBuildSystem=0"
+        ]
+      },
+      "release": {
+        "buildFlag": [
+          "-UseModernBuildSystem=0"
+        ]
+      }
+    }
+  }
