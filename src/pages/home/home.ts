@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Platform } from 'ionic-angular';
 import { ApinbuProvider } from '../../providers/apinbu/apinbu';
 import { Storage } from '@ionic/storage';
 
 import { SelectCurrencyPage } from '../select-currency/select-currency';
+import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
+
 
 
 @Component({
@@ -21,7 +23,9 @@ export class HomePage {
   todayStr:string = "";
   constructor(private apinbuProvider: ApinbuProvider,
               public navCtrl: NavController,
-              private storage: Storage) {
+              private storage: Storage,
+              public admob: AdMobFree,
+              public plt: Platform) {
     let dt = new Date();
     this.todayStr = dt.getDate() < 10 ? "0" + dt.getDate().toString() : dt.getDate().toString();
     this.todayStr = this.todayStr + "." + (dt.getMonth() < 9 ? "0" + (dt.getMonth()+1).toString() : (dt.getMonth()+1).toString());
@@ -32,7 +36,24 @@ export class HomePage {
   doRefresh($event) {
     this.refresher = $event;
     this.getData();
+    this.showBanner();
   }
+  showBanner() {
+    let bannerConfig: AdMobFreeBannerConfig = {
+      //isTesting: true, // Remove in production
+      autoShow: true,
+      id: "ca-app-pub-7766893277450035/5001494482"
+    };
+
+    this.admob.banner.config(bannerConfig);
+
+    this.admob.banner.prepare().then(() => {
+      // success
+      console.log("!!!success")
+    }).catch(e => console.log("Error",e));
+
+  }
+
   getData() {
     this.storage.get('DISPLAY_CURRENCY').then((val) => {
       console.log('>>>DISPLAY_CURRENCY', val);
@@ -49,7 +70,15 @@ export class HomePage {
       this.getListCurs(2);
       this.getListCurs(3);
     });
+
+    //this.showBanner();
   }
+  ionViewDidEnter() {
+
+    this.plt.ready().then((readySource) => {
+      this.showBanner();
+    });
+}
   ionViewWillEnter() {
     this.getData();
   }

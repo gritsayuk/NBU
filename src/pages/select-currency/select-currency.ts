@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { ApinbuProvider } from '../../providers/apinbu/apinbu';
+import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
 
 @Component({
   selector: 'page-select-currency',
@@ -79,7 +80,9 @@ export class SelectCurrencyPage {
   constructor(private apinbuProvider: ApinbuProvider,
               public navCtrl: NavController,
               public navParams: NavParams,
-              private storage: Storage) {
+              private storage: Storage,
+              public admob: AdMobFree,
+              public plt: Platform) {
     this.allCurryncy = this.allCurryncyDef;
     this.storage.get('DISPLAY_CURRENCY').then((val) => {
       if (!!val) {
@@ -105,6 +108,25 @@ export class SelectCurrencyPage {
       this.getListCurs();
     });
   }*/
+  ionViewDidEnter() {
+    this.plt.ready().then((readySource) => {
+      this.showBanner();
+    });
+  }
+  showBanner() {
+    let bannerConfig: AdMobFreeBannerConfig = {
+      //isTesting: true, // Remove in production
+      autoShow: true,
+      id: "ca-app-pub-7766893277450035/5001494482"
+    };
+    this.admob.banner.config(bannerConfig);
+
+    this.admob.banner.prepare().then(() => {
+      // success
+      console.log("!!!success")
+    }).catch(e => console.log("Error",e));
+
+  }
   getListCurs() {
     let ysterday: string = this.apinbuProvider.dateToString(-1);
 
