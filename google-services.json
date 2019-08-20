@@ -1,0 +1,60 @@
+{
+  "project_info": {
+    "project_number": "777902048579",
+    "firebase_url": "https://ethermine-33962.firebaseio.com",
+    "project_id": "ethermine-33962",
+    "storage_bucket": "ethermine-33962.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:777902048579:android:6db23cecc421d43a",
+        "android_client_info": {
+          "package_name": "first.ethermine.chipmen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzLH7iir0w7bgsBwPeb17S3VAXhzivA4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "777902048579-csec4i56irsh90r1h9d6bl2c94pjng2d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-7766893277450035~1003408298"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:777902048579:android:6c3553e7b3afc1e8",
+        "android_client_info": {
+          "package_name": "nbu.chipman.ua"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzLH7iir0w7bgsBwPeb17S3VAXhzivA4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "777902048579-csec4i56irsh90r1h9d6bl2c94pjng2d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
