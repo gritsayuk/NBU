@@ -62,7 +62,7 @@ export class HomePage {
       }
       else {
         this.displayCur = this.apinbuProvider.displayCur;
-        this.storage.set("DISPLAY_CURRENCY", this.apinbuProvider.displayCur);
+        this.storage.set("DISPLAY_CURRENCY", this.displayCur);
       }
 
       this.requestCount = 3;
@@ -76,11 +76,12 @@ export class HomePage {
   ionViewDidEnter() {
 
     this.plt.ready().then((readySource) => {
+      this.getData();
       this.showBanner();
     });
 }
   ionViewWillEnter() {
-    this.getData();
+    //this.getData();
   }
 
   getListCurs(result:number, iter: number = 0) {
@@ -125,6 +126,7 @@ export class HomePage {
           }
         }, error => {
           console.log(">>>BEDA!!!", error);
+          console.log(">>>param!!!", param);
         });
     }
   }
