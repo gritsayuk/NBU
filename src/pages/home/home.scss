@@ -14,4 +14,7 @@ page-home {
   .item-padding-bottom {
     padding-bottom: 0px;
   }
+  .item-padding-bottom > h2{
+    font-weight: bold;
+  }
 }

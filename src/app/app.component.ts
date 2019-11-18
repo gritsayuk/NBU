@@ -5,7 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { SelectCurrencyPage } from '../pages/select-currency/select-currency';
-import { Firebase } from '@ionic-native/firebase';
+//import { Firebase } from '@ionic-native/firebase';
 
 @Component({
   templateUrl: 'app.html'
@@ -17,7 +17,7 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(private firebase: Firebase, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(/*private firebase: Firebase,*/ public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -35,9 +35,9 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
 
-      this.firebase.getToken()
+     /* this.firebase.getToken()
         .then(token => console.log('The token is ${token}'))
-        .catch(error => console.error('Error getting token', error));
+        .catch(error => console.log('Error getting token', error));*/
     });
   }
 

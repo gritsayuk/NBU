@@ -24,9 +24,22 @@ export class ApinbuProvider {
   constructor(public spinner: LoadingController,
               public http: HttpClient) {
     console.log('Hello ApinbuProvider Provider');
+
+    this.loading = this.spinner.create({
+      spinner: 'bubbles',
+      content: "",
+      dismissOnPageChange: true,
+      duration: 5000
+    })
+    this.loading.onDidDismiss(() => {
+      this.loadingShow = false;
+      //console.log('Dismissed loading');
+    });
+
   }
   public displayCur:string = ";USD;EUR;";
   loading:any = undefined;
+  loadingShow: boolean = false;
   options: any = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -40,7 +53,7 @@ export class ApinbuProvider {
     return Observable.create(observable=> {
       console.log('>>>siebel_api>>>' + method, request);
       if (spinner) {
-        this.showSpinner({dismissOnPageChange: true})
+        //this.showSpinner();
       }
       //console.log('>>>siebel_api>>> headers: ', this.options);
       //this.http.get(API_URL + method, request, this.options)
@@ -51,41 +64,30 @@ export class ApinbuProvider {
             observable.complete();
           console.log(">>>this.loading",this.loading)
             console.log(">>>!!this.loading",!!this.loading)
-          if (!!this.loading) {
+          if (this.loadingShow) {
             this.loading.dismiss();
-            console.log(">>>this.loading",this.loading);
+            console.log(">>>this.loading.dismiss",this.loading);
           }
           },
           error => {
             //this.handleError(error);
             observable.error(error);
             observable.complete();
-            if (!!this.loading) {
+            if (this.loadingShow) {
               this.loading.dismiss();
+              console.log(">>>this.loading.dismiss",this.loading);
             }
           });
     });
   }
 
-  showSpinner(
-    {dismissOnPageChange = true,
-    duration = 5000,
-    content = ""}:LoadingOptions
-  ) {
+  showSpinner() {
     console.log(">>>>showSpinner>>>!!!",this.loading);
-    if (!this.loading) {
-      this.loading = this.spinner.create({
-        spinner: 'bubbles',
-        content: content,
-        dismissOnPageChange: dismissOnPageChange,
-        duration: duration
-      });
-      this.loading.onDidDismiss(() => {
-        console.log('Dismissed loading');
-      });
+    //Почему-то не работает 
+    /*if (!this.loadingShow) {
+      this.loadingShow = true;
       this.loading.present();
-
-    }
+    }*/
   }
 
   dateToString (num: number) {

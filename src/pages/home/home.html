@@ -16,9 +16,9 @@
     <!--<ion-item *ngFor="let cur of cursList">-->
     <ion-card *ngFor="let cur of cursList" class="cardCurrency">
         <ion-row class="item-padding-bottom">
-          <ion-col class="item-padding-bottom"><h1>{{ cur.cc }}</h1></ion-col>
-          <ion-col class="item-padding-bottom" ><h1 [ngClass]="{'text-blueviolet': cur.exchangedate !== todayStr}">{{ cur.rate | number: '.1-4' }}</h1></ion-col>
-          <ion-col class="item-padding-bottom"><h1>{{ cur.prerate | number: '.1-4' }}</h1></ion-col>
+          <ion-col class="item-padding-bottom"><h2>{{ cur.cc }}</h2></ion-col>
+          <ion-col class="item-padding-bottom" ><h2 [ngClass]="{'text-blueviolet': cur.exchangedate !== todayStr}">{{ cur.rate | number: '.1-6' }}</h2></ion-col>
+          <ion-col class="item-padding-bottom"><h2>{{ cur.prerate | number: '.1-6' }}</h2></ion-col>
         </ion-row>
         <ion-row class="item-padding-top">
           <ion-col class="item-padding-top">{{cur.txt}}</ion-col>
