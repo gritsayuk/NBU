@@ -4,7 +4,7 @@ import { ApinbuProvider } from '../../providers/apinbu/apinbu';
 import { Storage } from '@ionic/storage';
 
 import { SelectCurrencyPage } from '../select-currency/select-currency';
-import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
+import { AdMobFree, AdMobFreeBannerConfig } from '@ionic-native/admob-free';
 
 
 
@@ -18,7 +18,7 @@ export class HomePage {
   preCursListAll:any = {};
   prePreCursListAll:any = {};
   cursList:any = [];
-  displayCur:string = "";
+  displayCur:string = ";USD;EUR;";
   requestCount:number = 0;
   todayStr:string = "";
   constructor(private apinbuProvider: ApinbuProvider,
@@ -55,29 +55,31 @@ export class HomePage {
   }
 
   getData() {
+    //console.log('>>>getData()', 'Start');
     this.storage.get('DISPLAY_CURRENCY').then((val) => {
       console.log('>>>DISPLAY_CURRENCY', val);
       if (!!val) {
         this.displayCur = val;
       }
       else {
-        this.displayCur = this.apinbuProvider.displayCur;
+//        this.displayCur = this.apinbuProvider.displayCur;
         this.storage.set("DISPLAY_CURRENCY", this.displayCur);
       }
 
       this.requestCount = 3;
       this.getListCurs(1);
-      this.getListCurs(2);
-      this.getListCurs(3);
+      //this.getListCurs(2);
+      //this.getListCurs(3);
     });
 
     //this.showBanner();
   }
   ionViewDidEnter() {
 
-    this.plt.ready().then((readySource) => {
-      this.getData();
-      this.showBanner();
+    //this.plt.ready().then((readySource) => {
+      this.plt.ready().then(() => {
+        this.showBanner();
+        this.getData();
     });
 }
   ionViewWillEnter() {
@@ -85,14 +87,15 @@ export class HomePage {
   }
 
   getListCurs(result:number, iter: number = 0) {
+    console.log(">>>getListCurs Start");
     let param: string = "";
-    if (result === 1) {
+    if (result === 1) {//Завтра и тд
       param = "date="+this.apinbuProvider.dateToString(1+iter)+"&";
     }
-    if (result === 2) {
+    if (result === 2) {//Сегодня
       param = "date="+this.apinbuProvider.dateToString(0)+"&";
     }
-    if (result === 3) {
+    if (result === 3) {//Вчера
       param = "date="+this.apinbuProvider.dateToString(-1)+"&";
     }
     if (iter < 5) {
@@ -109,11 +112,13 @@ export class HomePage {
                 this.getListCurs(1, iter+1);
               } else {
                 --this.requestCount;
+                this.getListCurs(2);
               }
             } else {
               if (result === 2) {
                 this.preCursListAll = res;
                 --this.requestCount;
+                this.getListCurs(3);
               } else {
                 this.prePreCursListAll = res;
                 --this.requestCount;

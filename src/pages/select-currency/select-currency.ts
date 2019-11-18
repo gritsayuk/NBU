@@ -3,7 +3,7 @@ import { NavController, NavParams, Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { ApinbuProvider } from '../../providers/apinbu/apinbu';
-import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
+import { AdMobFree, AdMobFreeBannerConfig } from '@ionic-native/admob-free';
 
 @Component({
   selector: 'page-select-currency',
