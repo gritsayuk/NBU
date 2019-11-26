@@ -21,6 +21,7 @@ export class HomePage {
   displayCur:string = ";USD;EUR;";
   requestCount:number = 0;
   todayStr:string = "";
+  bicikle_1 :number = 1;
   constructor(private apinbuProvider: ApinbuProvider,
               public navCtrl: NavController,
               private storage: Storage,
@@ -78,8 +79,8 @@ export class HomePage {
 
     //this.plt.ready().then((readySource) => {
       this.plt.ready().then(() => {
-        this.showBanner();
         this.getData();
+        this.showBanner();
     });
 }
   ionViewWillEnter() {
@@ -132,6 +133,9 @@ export class HomePage {
         }, error => {
           console.log(">>>BEDA!!!", error);
           console.log(">>>param!!!", param);
+          if (this.bicikle_1 > 0) {
+            this.getListCurs(result, iter);
+          }
         });
     }
   }
