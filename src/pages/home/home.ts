@@ -99,7 +99,7 @@ export class HomePage {
     if (result === 3) {//Вчера
       param = "date="+this.apinbuProvider.dateToString(-1)+"&";
     }
-    if (iter < 5) {
+    if (iter < 10) {
       this.apinbuProvider.runRequestGet({
         method: 'exchange',
         request: '?' + param + 'json',
