@@ -30,7 +30,7 @@
     "@ionic/storage": "^2.2.0",
     "cordova-admob-sdk": "^0.24.1",
     "cordova-android": "^8.1.0",
-    "cordova-ios": "4.5.5",
+    "cordova-ios": "6.2.0",
     "cordova-plugin-admob-free": "^0.27.0",
     "cordova-plugin-advanced-http": "2.0.2",
     "cordova-plugin-device": "^2.0.2",
