@@ -33,3 +33,18 @@ $RECYCLE.BIN/
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
+
+# Local signing credentials and private backups must never enter Git.
+.private/
+build.json
+build.local.json
+keystore.properties
+signing.properties
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.key
+.env
+.env.*
+!.env.example

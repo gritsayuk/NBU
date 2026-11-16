@@ -1,0 +1,11 @@
+{
+  "android": {
+    "release": {
+      "keystore": "/absolute/path/to/private-upload-key.jks",
+      "storePassword": "REPLACE_LOCALLY",
+      "alias": "REPLACE_LOCALLY",
+      "password": "REPLACE_LOCALLY",
+      "keystoreType": "jks"
+    }
+  }
+}
